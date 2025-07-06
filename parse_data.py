@@ -105,16 +105,20 @@ def parse_html_to_js_data(html_content):
 
 # Read the HTML content from yeniveri.txt (assumes UTF-8 encoding)
 if __name__ == "__main__":
+    # 1) HTML’i oku
     with open("yeniveri.txt", "r", encoding="utf-8") as f:
         html_content = f.read()
 
-    # Parse the HTML and convert it to a JavaScript assignment
+    # 2) Parse et
     parsed_data = parse_html_to_js_data(html_content)
+
+    # 3) JS çıktısını hazırla
     js_output = (
         "const defaultCourseData = "
         + json.dumps(parsed_data, ensure_ascii=False, indent=4)
         + ";\n"
     )
 
+    # 4) Dosyaya yaz
     with open("temp_data.js", "w", encoding="utf-8") as outfile:
         outfile.write(js_output)

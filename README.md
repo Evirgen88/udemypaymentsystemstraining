@@ -12,22 +12,12 @@ Bu repo, Udemy üzerinde yayınlanacak **Fintech 101** eğitim serisinin içerik
 ## Kurulum
 
 1. Bu repoyu klonlayın:
-   ```bash
+   ```bash1
    git clone <repo-url>
    ```
 2. Dizin içine girin ve `index.html` dosyasını bir tarayıcıda açın.
 
 Herhangi bir sunucu kurulumu gerekmez; proje saf HTML, CSS ve JavaScript ile çalışır.
-
-## Veri Setini Güncelleme
-
-`yeniveri.txt` dosyasında değişiklik yaparsanız, yeni modül ve derslerin uygulanabilmesi için `parse_data.py` betiğini çalıştırarak `temp_data.js` dosyasını güncellemeniz gerekir:
-
-```bash
-python3 parse_data.py
-```
-
-Bu işlem, HTML içeriğini JSON formatına çevirerek uygulamanın kullandığı veri dosyasını yeniden oluşturur.
 
 ## Kullanım
 
