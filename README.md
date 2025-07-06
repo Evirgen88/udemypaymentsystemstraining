@@ -12,7 +12,7 @@ Bu repo, Udemy üzerinde yayınlanacak **Fintech 101** eğitim serisinin içerik
 ## Kurulum
 
 1. Bu repoyu klonlayın:
-   ```bash
+   ```bash1
    git clone <repo-url>
    ```
 2. Dizin içine girin ve `index.html` dosyasını bir tarayıcıda açın.

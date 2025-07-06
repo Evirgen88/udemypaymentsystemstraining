@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addModuleBtn = document.getElementById('add-module-btn');
     const lessonDetails = document.getElementById('lesson-details');
 
+
 const defaultCourseData = [
     {
         name: "Modül 1: Giriş ve Genel Bakış",
@@ -502,6 +503,7 @@ const defaultCourseData = [
         ]
     },
 ];
+main
 
     let stored = localStorage.getItem('fintech101Planner');
     let parsed;

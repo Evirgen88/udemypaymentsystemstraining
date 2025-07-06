@@ -1,4 +1,7 @@
+"""Utility to convert the HTML outline into a JavaScript data file."""
+
 import re
+import json
 
 def parse_html_to_js_data(html_content):
     modules_data = []
@@ -101,31 +104,21 @@ def parse_html_to_js_data(html_content):
     return modules_data
 
 # Read the HTML content from yeniveri.txt (assumes UTF-8 encoding)
-with open('yeniveri.txt', 'r', encoding='utf-8') as f:
-    html_content = f.read()
+if __name__ == "__main__":
+    # 1) HTML’i oku
+    with open("yeniveri.txt", "r", encoding="utf-8") as f:
+        html_content = f.read()
 
-# Parse the HTML
-parsed_data = parse_html_to_js_data(html_content)
+    # 2) Parse et
+    parsed_data = parse_html_to_js_data(html_content)
 
-# Format as JavaScript array
-js_output = "const defaultCourseData = [\n"
-for module in parsed_data:
-    js_output += "    {\n"
-    js_output += f"        name: \"{module['name']}\",\n"
-    js_output += "        lessons: [\n"
-    for lesson in module['lessons']:
-        js_output += "            {\n"
-        js_output += f"                title: \"{lesson['title'].replace('"', '\"')}\",\n"
-        js_output += f"                description: \"{lesson['description'].replace('"', '\"').replace('\n', '\\n')}\",\n"
-        js_output += "                topics: [\n"
-        for topic in lesson['topics']:
-            js_output += "                    { title: \"" + topic['title'].replace('"', '\"') + "\", detail: \"" + topic['detail'].replace('"', '\"').replace('\n', '\\n') + "\" },\n"
-        js_output += "                ],\n"
-        js_output += f"                status: \"{lesson['status']}\"\n"
-        js_output += "            },\n"
-    js_output += "        ]\n"
-    js_output += "    },\n"
-js_output += "];\n"
+    # 3) JS çıktısını hazırla
+    js_output = (
+        "const defaultCourseData = "
+        + json.dumps(parsed_data, ensure_ascii=False, indent=4)
+        + ";\n"
+    )
 
-with open('temp_data.js', 'w', encoding='utf-8') as outfile:
-    outfile.write(js_output)
+    # 4) Dosyaya yaz
+    with open("temp_data.js", "w", encoding="utf-8") as outfile:
+        outfile.write(js_output)
