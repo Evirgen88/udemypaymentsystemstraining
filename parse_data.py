@@ -1,3 +1,5 @@
+"""Utility to convert the HTML outline into a JavaScript data file."""
+
 import re
 import json
 
@@ -102,15 +104,17 @@ def parse_html_to_js_data(html_content):
     return modules_data
 
 # Read the HTML content from yeniveri.txt (assumes UTF-8 encoding)
-with open('yeniveri.txt', 'r', encoding='utf-8') as f:
-    html_content = f.read()
+if __name__ == "__main__":
+    with open("yeniveri.txt", "r", encoding="utf-8") as f:
+        html_content = f.read()
 
-# Parse the HTML
-parsed_data = parse_html_to_js_data(html_content)
+    # Parse the HTML and convert it to a JavaScript assignment
+    parsed_data = parse_html_to_js_data(html_content)
+    js_output = (
+        "const defaultCourseData = "
+        + json.dumps(parsed_data, ensure_ascii=False, indent=4)
+        + ";\n"
+    )
 
-
-# Format data using JSON to ensure proper escaping
-js_output = "const defaultCourseData = " + json.dumps(parsed_data, ensure_ascii=False, indent=4) + ";\n"
-
-with open('temp_data.js', 'w', encoding='utf-8') as outfile:
-    outfile.write(js_output)
+    with open("temp_data.js", "w", encoding="utf-8") as outfile:
+        outfile.write(js_output)
