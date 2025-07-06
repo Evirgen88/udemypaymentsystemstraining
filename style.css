@@ -1,11 +1,22 @@
 /* Genel Stil */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e0f2f7; /* Açık mavi tonu */
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e9f7f9, #ffffff); /* yumuşak geçiş */
     color: #333;
     line-height: 1.6;
     margin: 0;
     padding: 0;
+}
+
+/* Üst Menü */
+.topbar {
+    background: linear-gradient(90deg, #1abc9c, #3498db);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .container {

@@ -11,7 +11,11 @@ def parse_html_to_js_data(html_content):
         lessons_data = []
         
         # Dersleri bul
-        lesson_pattern = re.compile(r'<li><label><input type="checkbox"> <span><b>(.*?)</b>: (.*?)</span></label></li>', re.DOTALL)
+        # Ders satırı "<b>Başlık:</b> Açıklama" biçiminde olabilir
+        lesson_pattern = re.compile(
+            r'<li><label><input type="checkbox">\s*<span><b>([^<]+?)</b>[:]?\s*(.*?)</span></label></li>',
+            re.DOTALL
+        )
         lessons = lesson_pattern.findall(lessons_html)
         
         # Eğer dersler bulunamazsa, alt konuları doğrudan ders olarak kabul et (eski yapıya uyum için)
@@ -96,8 +100,8 @@ def parse_html_to_js_data(html_content):
         
     return modules_data
 
-# Read the HTML content from yeniveri.txt
-with open(r'C:\Users\lidya12\fintech-101-planner\yeniveri.txt', 'r', encoding='latin-1') as f:
+# Read the HTML content from yeniveri.txt (assumes UTF-8 encoding)
+with open('yeniveri.txt', 'r', encoding='utf-8') as f:
     html_content = f.read()
 
 # Parse the HTML
@@ -123,5 +127,5 @@ for module in parsed_data:
     js_output += "    },\n"
 js_output += "];\n"
 
-with open(r'C:\Users\lidya12\fintech-101-planner\temp_data.js', 'w', encoding='utf-8') as outfile:
+with open('temp_data.js', 'w', encoding='utf-8') as outfile:
     outfile.write(js_output)
