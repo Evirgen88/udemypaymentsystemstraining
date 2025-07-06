@@ -1,4 +1,5 @@
 import re
+import json
 
 def parse_html_to_js_data(html_content):
     modules_data = []
@@ -11,7 +12,11 @@ def parse_html_to_js_data(html_content):
         lessons_data = []
         
         # Dersleri bul
-        lesson_pattern = re.compile(r'<li><label><input type="checkbox"> <span><b>(.*?)</b>: (.*?)</span></label></li>', re.DOTALL)
+        # Ders satırı "<b>Başlık:</b> Açıklama" biçiminde olabilir
+        lesson_pattern = re.compile(
+            r'<li><label><input type="checkbox">\s*<span><b>([^<]+?)</b>[:]?\s*(.*?)</span></label></li>',
+            re.DOTALL
+        )
         lessons = lesson_pattern.findall(lessons_html)
         
         # Eğer dersler bulunamazsa, alt konuları doğrudan ders olarak kabul et (eski yapıya uyum için)
@@ -96,32 +101,16 @@ def parse_html_to_js_data(html_content):
         
     return modules_data
 
-# Read the HTML content from yeniveri.txt
-with open(r'C:\Users\lidya12\fintech-101-planner\yeniveri.txt', 'r', encoding='latin-1') as f:
+# Read the HTML content from yeniveri.txt (assumes UTF-8 encoding)
+with open('yeniveri.txt', 'r', encoding='utf-8') as f:
     html_content = f.read()
 
 # Parse the HTML
 parsed_data = parse_html_to_js_data(html_content)
 
-# Format as JavaScript array
-js_output = "const defaultCourseData = [\n"
-for module in parsed_data:
-    js_output += "    {\n"
-    js_output += f"        name: \"{module['name']}\",\n"
-    js_output += "        lessons: [\n"
-    for lesson in module['lessons']:
-        js_output += "            {\n"
-        js_output += f"                title: \"{lesson['title'].replace('"', '\"')}\",\n"
-        js_output += f"                description: \"{lesson['description'].replace('"', '\"').replace('\n', '\\n')}\",\n"
-        js_output += "                topics: [\n"
-        for topic in lesson['topics']:
-            js_output += "                    { title: \"" + topic['title'].replace('"', '\"') + "\", detail: \"" + topic['detail'].replace('"', '\"').replace('\n', '\\n') + "\" },\n"
-        js_output += "                ],\n"
-        js_output += f"                status: \"{lesson['status']}\"\n"
-        js_output += "            },\n"
-    js_output += "        ]\n"
-    js_output += "    },\n"
-js_output += "];\n"
 
-with open(r'C:\Users\lidya12\fintech-101-planner\temp_data.js', 'w', encoding='utf-8') as outfile:
+# Format data using JSON to ensure proper escaping
+js_output = "const defaultCourseData = " + json.dumps(parsed_data, ensure_ascii=False, indent=4) + ";\n"
+
+with open('temp_data.js', 'w', encoding='utf-8') as outfile:
     outfile.write(js_output)
